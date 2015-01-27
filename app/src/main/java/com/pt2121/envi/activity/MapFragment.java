@@ -25,18 +25,6 @@
 
 package com.pt2121.envi.activity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.pt2121.envi.MapUtils;
-import com.pt2121.envi.R;
-import com.pt2121.envi.RecycleApp;
-import com.pt2121.envi.model.Loc;
-import com.pt2121.envi.model.LocType;
-
 import android.app.Activity;
 import android.location.Location;
 import android.net.Uri;
@@ -45,6 +33,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.pt2121.envi.MapUtils;
+import com.pt2121.envi.R;
+import com.pt2121.envi.RecycleApp;
+import com.pt2121.envi.model.Loc;
+import com.pt2121.envi.model.LocType;
 
 import rx.Observable;
 import rx.Subscription;

@@ -25,10 +25,6 @@
 
 package com.pt2121.envi.activity;
 
-import com.pt2121.envi.R;
-import com.pt2121.envi.model.Loc;
-import com.pt2121.envi.model.LocType;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.net.Uri;
@@ -38,6 +34,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.pt2121.envi.R;
+import com.pt2121.envi.model.Loc;
+import com.pt2121.envi.model.LocType;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

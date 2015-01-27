@@ -26,6 +26,12 @@
 package com.pt2121.envi.activity;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+
 import com.pt2121.envi.ISharedPreferencesHelper;
 import com.pt2121.envi.R;
 import com.pt2121.envi.RecycleApp;
@@ -33,12 +39,6 @@ import com.pt2121.envi.RecycleMachine;
 import com.pt2121.envi.SharedPreferencesHelperFactory;
 import com.pt2121.envi.Utils;
 import com.pt2121.envi.userlocation.IUserLocation;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
 
 import javax.inject.Inject;
 

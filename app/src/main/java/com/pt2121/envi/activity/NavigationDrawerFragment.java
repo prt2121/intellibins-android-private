@@ -26,9 +26,6 @@
 package com.pt2121.envi.activity;
 
 
-import com.pt2121.envi.R;
-import com.pt2121.envi.model.LocType;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,6 +45,9 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.Toast;
+
+import com.pt2121.envi.R;
+import com.pt2121.envi.model.LocType;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

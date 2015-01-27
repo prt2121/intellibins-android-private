@@ -25,11 +25,11 @@
 
 package com.pt2121.envi;
 
-import com.google.gson.Gson;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+
+import com.google.gson.Gson;
 
 /**
  * Created by prt2121 on 1/1/15.

@@ -25,17 +25,16 @@
 
 package com.pt2121.envi.binlocation;
 
-import com.google.gson.GsonBuilder;
-
-import com.pt2121.envi.R;
-import com.pt2121.envi.model.Loc;
-import com.pt2121.envi.model.LocType;
-import com.pt2121.envi.model.nyc.BinData;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
+
+import com.google.gson.GsonBuilder;
+import com.pt2121.envi.R;
+import com.pt2121.envi.model.Loc;
+import com.pt2121.envi.model.LocType;
+import com.pt2121.envi.model.nyc.BinData;
 
 import java.io.InputStream;
 import java.util.List;

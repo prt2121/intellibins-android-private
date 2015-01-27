@@ -25,17 +25,16 @@
 
 package com.pt2121.envi;
 
+import android.location.Location;
+import android.util.Log;
+import android.util.Pair;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
-
-import android.location.Location;
-import android.util.Log;
-import android.util.Pair;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -62,7 +61,7 @@ public class MapUtils {
      * @return Subscription
      */
     public static Subscription showPins(Observable<Location> pivot, Observable<Loc> things,
-            GoogleMap map, int maxLocation, int hue) {
+                                        GoogleMap map, int maxLocation, int hue) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
@@ -113,7 +112,7 @@ public class MapUtils {
      * @return Subscription
      */
     public static Subscription showPins(Observable<Location> pivot, Observable<Loc> things,
-            GoogleMap map, int maxLocation) {
+                                        GoogleMap map, int maxLocation) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
