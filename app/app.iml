@@ -97,6 +97,7 @@
     <orderEntry type="library" exported="" name="rxjava-string-0.22.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="ant-1.8.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="fest-android-1.0.8" level="project" />
+    <orderEntry type="library" exported="" name="calligraphy-2.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-ant-tasks-2.1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="sqlite4java-0.282" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="commons-codec-1.3" level="project" />

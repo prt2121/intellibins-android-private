@@ -35,11 +35,14 @@ import com.pt2121.envi.Utils;
 import com.pt2121.envi.userlocation.IUserLocation;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import javax.inject.Inject;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SplashActivity extends Activity {
 
@@ -79,5 +82,10 @@ public class SplashActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         mUserLocation.stop();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

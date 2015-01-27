@@ -32,6 +32,8 @@ import com.pt2121.envi.userlocation.UserLocationModule;
 import android.app.Application;
 import android.content.Context;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by prt2121 on 12/28/14.
  */
@@ -48,6 +50,11 @@ public class RecycleApp extends Application {
                 .userLocationModule(new UserLocationModule(this))
                 .dropOffLocationModule(new DropOffLocationModule())
                 .build();
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
     }
 
     public static RecycleMachine getRecycleMachine(Context context) {

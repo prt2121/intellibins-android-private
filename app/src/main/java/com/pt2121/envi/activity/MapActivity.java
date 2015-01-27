@@ -30,6 +30,7 @@ import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -37,6 +38,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -117,6 +120,11 @@ public class MapActivity extends FragmentActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
         // TODO
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }
