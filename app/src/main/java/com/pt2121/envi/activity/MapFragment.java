@@ -35,6 +35,7 @@ import com.pt2121.envi.MapUtils;
 import com.pt2121.envi.R;
 import com.pt2121.envi.RecycleApp;
 import com.pt2121.envi.model.Loc;
+import com.pt2121.envi.model.LocType;
 
 import android.app.Activity;
 import android.location.Location;
@@ -67,7 +68,11 @@ public class MapFragment extends Fragment {
 
     private Loc mLoc;
 
+    private int mFlag;
+
     private static final String ARG_LOC = "locations";
+
+    private static final String ARG_FLAG = "flag";
 
     private OnFragmentInteractionListener mListener;
 
@@ -84,10 +89,11 @@ public class MapFragment extends Fragment {
      * @param loc user's location
      * @return A new instance of fragment MapFragment.
      */
-    public static MapFragment newInstance(Loc loc) {
+    public static MapFragment newInstance(Loc loc, int flag) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_LOC, loc);
+        args.putInt(ARG_FLAG, flag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,6 +107,7 @@ public class MapFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mLoc = getArguments().getParcelable(ARG_LOC);
+            mFlag = getArguments().getInt(ARG_FLAG);
             //mSubscription = MapUtils.showPins(mockObservable, findClosestBins, mMap, MAX_LOCATION);
         }
     }
@@ -116,18 +123,18 @@ public class MapFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setUpMapIfNeeded(mLoc);
+        setUpMapIfNeeded(mLoc, mFlag);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setUpMapIfNeeded(mLoc);
+        setUpMapIfNeeded(mLoc, mFlag);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
@@ -172,7 +179,7 @@ public class MapFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void setUpMapIfNeeded(Loc loc) {
+    private void setUpMapIfNeeded(Loc loc, int flag) {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -180,12 +187,12 @@ public class MapFragment extends Fragment {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap(loc);
+                setUpMap(loc, flag);
             }
         }
     }
 
-    private void setUpMap(Loc loc) {
+    private void setUpMap(Loc loc, int flag) {
         LatLng latLng = new LatLng(loc.latitude, loc.longitude);
         mMap.addMarker(new MarkerOptions().position(latLng).title(loc.name));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
@@ -194,14 +201,16 @@ public class MapFragment extends Fragment {
         mockLocation.setLatitude(loc.latitude);
         mockLocation.setLongitude(loc.longitude);
         Observable<Location> mockObservable = Observable.just(mockLocation);
-        Observable<Loc> bin =
+
+        Observable<Loc> bin = ((flag & LocType.BIN) == LocType.BIN) ?
                 RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
                         .findBin()
-                        .getLocs();
-        Observable<Loc> dropOff =
+                        .getLocs() : Observable.<Loc>empty();
+
+        Observable<Loc> dropOff = ((flag & LocType.DROPOFF) == LocType.DROPOFF) ?
                 RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
                         .findDropOff()
-                        .getLocs();
+                        .getLocs() : Observable.<Loc>empty();
         mSubscription = MapUtils.showPins(mockObservable,
                 dropOff.concatWith(bin), mMap, MAX_LOCATION);
     }

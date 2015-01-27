@@ -76,11 +76,11 @@ public class MapActivity extends FragmentActivity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onFlagChanged(int flag) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, MapFragment.newInstance(mUserLoc))
+                .replace(R.id.container, MapFragment.newInstance(mUserLoc, flag))
                 .commit();
     }
 

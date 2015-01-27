@@ -27,6 +27,7 @@ package com.pt2121.envi.activity;
 
 
 import com.pt2121.envi.R;
+import com.pt2121.envi.model.LocType;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -44,9 +45,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 /**
@@ -59,7 +59,7 @@ public class NavigationDrawerFragment extends Fragment {
     /**
      * Remember the position of the selected item.
      */
-    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+    private static final String STATE_FLAG = "selected_navigation_drawer_flag";
 
     /**
      * Per the design guidelines, you should show the drawer on launch until the user manually
@@ -79,15 +79,17 @@ public class NavigationDrawerFragment extends Fragment {
 
     private DrawerLayout mDrawerLayout;
 
-    private ListView mDrawerListView;
-
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private int mCurrentFlag = LocType.BIN;
 
     private boolean mFromSavedInstanceState;
 
     private boolean mUserLearnedDrawer;
+
+    private Switch mBinSwitch;
+
+    private Switch mDropOffSwitch;
 
     public NavigationDrawerFragment() {
     }
@@ -102,12 +104,13 @@ public class NavigationDrawerFragment extends Fragment {
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mCurrentFlag = savedInstanceState.getInt(STATE_FLAG);
             mFromSavedInstanceState = true;
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        // selectItem(mCurrentFlag);
+        //setSwitchState(mCurrentFlag);
     }
 
     @Override
@@ -119,26 +122,37 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
+                             Bundle savedInstanceState) {
+        TableLayout layout = (TableLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        mBinSwitch = (Switch) layout.findViewById(R.id.binSwitch);
+        mDropOffSwitch = (Switch) layout.findViewById(R.id.dropOffSwitch);
+        mBinSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> setStateFlag(isChecked, LocType.BIN));
+        mDropOffSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> setStateFlag(isChecked, LocType.DROPOFF));
+
+        setSwitchState(mCurrentFlag);
+        return layout;
+    }
+
+    private void setSwitchState(int flag) {
+        mBinSwitch.setChecked((flag & LocType.BIN) == LocType.BIN);
+        mDropOffSwitch.setChecked((flag & LocType.DROPOFF) == LocType.DROPOFF);
+        if (mCallbacks != null) {
+            mCallbacks.onFlagChanged(mCurrentFlag);
+        }
+    }
+
+    private void setStateFlag(boolean isChecked, int type) {
+        if (isChecked) {
+            mCurrentFlag |= type;
+        } else {
+            mCurrentFlag &= ~type;
+        }
+        if (mCallbacks != null) {
+            mCallbacks.onFlagChanged(mCurrentFlag);
+        }
     }
 
     public boolean isDrawerOpen() {
@@ -209,27 +223,9 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Defer code dependent on restoration of previous instance state.
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mDrawerLayout.post(mDrawerToggle::syncState);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }
-
-    private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
-        }
-        if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
-        }
     }
 
     @Override
@@ -251,7 +247,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        outState.putInt(STATE_FLAG, mCurrentFlag);
     }
 
     @Override
@@ -308,7 +304,9 @@ public class NavigationDrawerFragment extends Fragment {
 
         /**
          * Called when an item in the navigation drawer is selected.
+         *
+         * @param flag
          */
-        void onNavigationDrawerItemSelected(int position);
+        void onFlagChanged(int flag);
     }
 }
