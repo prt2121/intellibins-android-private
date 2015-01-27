@@ -163,8 +163,10 @@ public class MapUtils {
                 return 175f;
             case LocType.DROPOFF:
                 return BitmapDescriptorFactory.HUE_YELLOW;
-            default:
+            case LocType.WHOLE_FOODS:
                 return BitmapDescriptorFactory.HUE_GREEN;
+            default:
+                return BitmapDescriptorFactory.HUE_CYAN;
         }
     }
 

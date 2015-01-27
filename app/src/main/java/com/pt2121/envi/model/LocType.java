@@ -48,4 +48,10 @@ public class LocType {
      */
     public static final int DROPOFF = 1 << 2;
 
+    /**
+     * Value for {@link Loc#type}:
+     * if set, the location is Whole Foods Market.
+     */
+    public static final int WHOLE_FOODS = 1 << 3;
+
 }

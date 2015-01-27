@@ -210,8 +210,14 @@ public class MapFragment extends Fragment {
                 RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
                         .findDropOff()
                         .getLocs() : Observable.<Loc>empty();
+
+        Observable<Loc> wholeFoods = ((flag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS) ?
+                RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
+                        .findWholeFoods()
+                        .getLocs() : Observable.<Loc>empty();
+
         mSubscription = MapUtils.showPins(mockObservable,
-                dropOff.concatWith(bin), mMap, MAX_LOCATION);
+                dropOff.concatWith(bin).concatWith(wholeFoods), mMap, MAX_LOCATION);
     }
 
 }

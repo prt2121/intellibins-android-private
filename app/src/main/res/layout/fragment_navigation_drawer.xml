@@ -69,6 +69,25 @@
 
     </TableRow>
 
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/wholeFoodLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:text="Whole Foods" />
+
+        <Switch
+            android:id="@+id/wholeFoodSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2" />
+
+    </TableRow>
+
 
 </TableLayout>
 

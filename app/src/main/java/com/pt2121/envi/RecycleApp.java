@@ -31,6 +31,7 @@ import android.content.Context;
 import com.pt2121.envi.binlocation.BinLocationModule;
 import com.pt2121.envi.dropofflocation.DropOffLocationModule;
 import com.pt2121.envi.userlocation.UserLocationModule;
+import com.pt2121.envi.wholefoods.WholeFoodsLocationModule;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -49,6 +50,7 @@ public class RecycleApp extends Application {
                 .binLocationModule(new BinLocationModule())
                 .userLocationModule(new UserLocationModule(this))
                 .dropOffLocationModule(new DropOffLocationModule())
+                .wholeFoodsLocationModule(new WholeFoodsLocationModule())
                 .build();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/Lato-Regular.ttf")

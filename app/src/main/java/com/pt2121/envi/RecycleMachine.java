@@ -31,6 +31,8 @@ import com.pt2121.envi.dropofflocation.DropOffLocationModule;
 import com.pt2121.envi.dropofflocation.IFindDropOff;
 import com.pt2121.envi.userlocation.IUserLocation;
 import com.pt2121.envi.userlocation.UserLocationModule;
+import com.pt2121.envi.wholefoods.IFindWholeFoods;
+import com.pt2121.envi.wholefoods.WholeFoodsLocationModule;
 
 import javax.inject.Singleton;
 
@@ -43,7 +45,8 @@ import dagger.Component;
         RecycleModule.class,
         BinLocationModule.class,
         UserLocationModule.class,
-        DropOffLocationModule.class
+        DropOffLocationModule.class,
+        WholeFoodsLocationModule.class
 })
 @Singleton
 public interface RecycleMachine {
@@ -53,4 +56,6 @@ public interface RecycleMachine {
     IUserLocation locateUser();
 
     IFindDropOff findDropOff();
+
+    IFindWholeFoods findWholeFoods();
 }

@@ -91,6 +91,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     private Switch mDropOffSwitch;
 
+    private Switch mWholeFoodsSwitch;
+
     public NavigationDrawerFragment() {
     }
 
@@ -127,11 +129,13 @@ public class NavigationDrawerFragment extends Fragment {
                 R.layout.fragment_navigation_drawer, container, false);
         mBinSwitch = (Switch) layout.findViewById(R.id.binSwitch);
         mDropOffSwitch = (Switch) layout.findViewById(R.id.dropOffSwitch);
+        mWholeFoodsSwitch = (Switch) layout.findViewById(R.id.wholeFoodSwitch);
         mBinSwitch.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> setStateFlag(isChecked, LocType.BIN));
         mDropOffSwitch.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> setStateFlag(isChecked, LocType.DROPOFF));
-
+        mWholeFoodsSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> setStateFlag(isChecked, LocType.WHOLE_FOODS));
         setSwitchState(mCurrentFlag);
         return layout;
     }
@@ -139,6 +143,7 @@ public class NavigationDrawerFragment extends Fragment {
     private void setSwitchState(int flag) {
         mBinSwitch.setChecked((flag & LocType.BIN) == LocType.BIN);
         mDropOffSwitch.setChecked((flag & LocType.DROPOFF) == LocType.DROPOFF);
+        mWholeFoodsSwitch.setChecked((flag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS);
         if (mCallbacks != null) {
             mCallbacks.onFlagChanged(mCurrentFlag);
         }
