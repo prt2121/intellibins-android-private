@@ -25,9 +25,9 @@
 
 package com.pt2121.envi;
 
-import android.location.Location;
-
 import com.pt2121.envi.model.Loc;
+
+import android.location.Location;
 
 import rx.functions.Func2;
 

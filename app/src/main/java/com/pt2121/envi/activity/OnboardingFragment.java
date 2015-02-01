@@ -25,14 +25,14 @@
 
 package com.pt2121.envi.activity;
 
+import com.pt2121.envi.R;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.pt2121.envi.R;
 
 /**
  * Created by prt2121 on 11/25/14.
@@ -51,7 +51,7 @@ public class OnboardingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.view_onboarding, container, false);
         final int position = getArguments().getInt(ARG_POSITION);
         ((TextView) rootView.findViewById(R.id.onboardingTextView)).setText(

@@ -53,7 +53,7 @@ public class Loc implements Parcelable {
     }
 
     public Loc(String name, String address, double latitude, double longitude, int type,
-               String image) {
+            String image) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;

@@ -25,16 +25,22 @@
 
 package com.pt2121.envi;
 
-import android.location.Location;
-import android.util.Log;
-import android.util.Pair;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.util.Log;
+import android.util.Pair;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -61,7 +67,7 @@ public class MapUtils {
      * @return Subscription
      */
     public static Subscription showPins(Observable<Location> pivot, Observable<Loc> things,
-                                        GoogleMap map, int maxLocation, int hue) {
+            GoogleMap map, int maxLocation, int hue) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
@@ -105,18 +111,30 @@ public class MapUtils {
     /**
      * Show the pins on the map.
      *
+     * @param context     Android context used for get resources
      * @param pivot       user's location or the center location.
      * @param things      bin locations or things
      * @param map         the map to be showed
      * @param maxLocation the number of things
      * @return Subscription
      */
-    public static Subscription showPins(Observable<Location> pivot, Observable<Loc> things,
-                                        GoogleMap map, int maxLocation) {
+    public static Subscription showPins(
+            Context context,
+            Observable<Location> pivot,
+            Observable<Loc> things,
+            GoogleMap map, int maxLocation) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
         }
+
+        final int px = context.getResources().getDimensionPixelSize(R.dimen.map_circle_marker_size);
+        final Bitmap markerBitmap = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(markerBitmap);
+        final Drawable markerDrawable = context.getResources()
+                .getDrawable(R.drawable.circle_marker);
+        markerDrawable.setBounds(0, 0, markerBitmap.getWidth(), markerBitmap.getHeight());
+
         return Observable.zip(pivot.repeat(), things,
                 (location, loc) -> {
                     Location l = new Location(loc.name);
@@ -139,34 +157,34 @@ public class MapUtils {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
+                        Log.e(TAG, e.toString());
                     }
 
                     @Override
                     public void onNext(Loc loc) {
+                        markerDrawable.setColorFilter(getColor(loc.type), PorterDuff.Mode.MULTIPLY);
+                        markerDrawable.draw(canvas);
 
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(loc.latitude, loc.longitude))
                                 .title(loc.name)
-                                .icon(BitmapDescriptorFactory
-                                        .defaultMarker(
-                                                getColor(loc.type))));
+                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
                     }
                 });
     }
 
-    private static float getColor(int type) {
+    private static int getColor(int type) {
         switch (type) {
             case LocType.USER:
-                return BitmapDescriptorFactory.HUE_BLUE;
+                return 0xFF000000;
             case LocType.BIN:
-                return 175f;
+                return 0xFF00AD9F;
             case LocType.DROPOFF:
-                return BitmapDescriptorFactory.HUE_YELLOW;
+                return 0xFFFFFF00;
             case LocType.WHOLE_FOODS:
-                return BitmapDescriptorFactory.HUE_GREEN;
+                return 0xFF00FF00;
             default:
-                return BitmapDescriptorFactory.HUE_CYAN;
+                return 0xFF000000;
         }
     }
 

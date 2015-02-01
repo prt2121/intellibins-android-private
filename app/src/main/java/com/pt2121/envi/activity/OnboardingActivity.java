@@ -25,6 +25,9 @@
 
 package com.pt2121.envi.activity;
 
+import com.pt2121.envi.R;
+import com.pt2121.envi.view.CirclePageIndicator;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,9 +39,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
-
-import com.pt2121.envi.R;
-import com.pt2121.envi.view.CirclePageIndicator;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

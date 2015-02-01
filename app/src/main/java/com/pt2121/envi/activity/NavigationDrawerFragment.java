@@ -26,6 +26,9 @@
 package com.pt2121.envi.activity;
 
 
+import com.pt2121.envi.R;
+import com.pt2121.envi.model.LocType;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -45,9 +48,6 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.Toast;
-
-import com.pt2121.envi.R;
-import com.pt2121.envi.model.LocType;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -124,7 +124,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         TableLayout layout = (TableLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mBinSwitch = (Switch) layout.findViewById(R.id.binSwitch);
@@ -309,8 +309,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         /**
          * Called when an item in the navigation drawer is selected.
-         *
-         * @param flag
          */
         void onFlagChanged(int flag);
     }
