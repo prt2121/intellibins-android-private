@@ -64,8 +64,6 @@ public class MapFragment extends Fragment {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
-    private SupportMapFragment fragment;
-
     private Loc mLoc;
 
     private int mFlag;
@@ -108,7 +106,6 @@ public class MapFragment extends Fragment {
         if (getArguments() != null) {
             mLoc = getArguments().getParcelable(ARG_LOC);
             mFlag = getArguments().getInt(ARG_FLAG);
-            //mSubscription = MapUtils.showPins(mockObservable, findClosestBins, mMap, MAX_LOCATION);
         }
     }
 
@@ -193,14 +190,26 @@ public class MapFragment extends Fragment {
         }
     }
 
-    private void setUpMap(Loc loc, int flag) {
-        LatLng latLng = new LatLng(loc.latitude, loc.longitude);
-        mMap.addMarker(new MarkerOptions().position(latLng).title(loc.name));
+    private void setUpMap(Loc centerLoc, int flag) {
+        LatLng latLng = new LatLng(centerLoc.latitude, centerLoc.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
+        mSubscription = updateMarkers(centerLoc, flag);
+    }
 
-        Location mockLocation = new Location(loc.name);
-        mockLocation.setLatitude(loc.latitude);
-        mockLocation.setLongitude(loc.longitude);
+    public void refreshMarkers(Loc centerLoc, int flag) {
+        if (mMap != null) {
+            mMap.clear();
+            mSubscription = updateMarkers(centerLoc, flag);
+        }
+    }
+
+    private Subscription updateMarkers(Loc centerLoc, int flag) {
+        LatLng latLng = new LatLng(centerLoc.latitude, centerLoc.longitude);
+        mMap.addMarker(new MarkerOptions().position(latLng).title(centerLoc.name));
+
+        Location mockLocation = new Location(centerLoc.name);
+        mockLocation.setLatitude(centerLoc.latitude);
+        mockLocation.setLongitude(centerLoc.longitude);
         Observable<Location> mockObservable = Observable.just(mockLocation);
 
         Observable<Loc> bin = ((flag & LocType.BIN) == LocType.BIN) ?
@@ -218,8 +227,9 @@ public class MapFragment extends Fragment {
                         .findWholeFoods()
                         .getLocs() : Observable.<Loc>empty();
 
-        mSubscription = MapUtils.showPins(getActivity(), mockObservable,
+        return MapUtils.showPins(getActivity(), mockObservable,
                 dropOff.concatWith(bin).concatWith(wholeFoods), mMap, MAX_LOCATION);
     }
+
 
 }

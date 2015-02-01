@@ -58,6 +58,8 @@ public class MapActivity extends FragmentActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
+    private MapFragment mMapFragment;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -80,11 +82,15 @@ public class MapActivity extends FragmentActivity
 
     @Override
     public void onFlagChanged(int flag) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, MapFragment.newInstance(mUserLoc, flag))
-                .commit();
+        if (mMapFragment == null) {
+            mMapFragment = MapFragment.newInstance(mUserLoc, flag);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, mMapFragment)
+                    .commit();
+        } else {
+            mMapFragment.refreshMarkers(mUserLoc, flag);
+        }
     }
 
     public void restoreActionBar() {
