@@ -190,13 +190,25 @@ public class MapFragment extends Fragment {
         }
     }
 
+    /**
+     * Init map
+     *
+     * @param centerLoc user's location
+     * @param flag      marker flag
+     */
     private void setUpMap(Loc centerLoc, int flag) {
         LatLng latLng = new LatLng(centerLoc.latitude, centerLoc.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
         mSubscription = updateMarkers(centerLoc, flag);
     }
 
-    public void refreshMarkers(Loc centerLoc, int flag) {
+    /**
+     * Clear the map and update the markers.
+     *
+     * @param centerLoc user's location
+     * @param flag      marker flag
+     */
+    public void refreshMap(Loc centerLoc, int flag) {
         if (mMap != null) {
             mMap.clear();
             mSubscription = updateMarkers(centerLoc, flag);

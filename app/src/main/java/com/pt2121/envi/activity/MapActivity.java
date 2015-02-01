@@ -89,7 +89,7 @@ public class MapActivity extends FragmentActivity
                     .replace(R.id.container, mMapFragment)
                     .commit();
         } else {
-            mMapFragment.refreshMarkers(mUserLoc, flag);
+            mMapFragment.refreshMap(mUserLoc, flag);
         }
     }
 
