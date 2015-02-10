@@ -36,7 +36,7 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_onboarding">OnboardingActivity</string>
-    <string name="skip">SKIP</string>
+    <string name="lets_get_started">Let's get started</string>
     <string name="next">NEXT</string>
     <string name="preference_user_location">userLocationPreference</string>
     <string name="user_location">userLocation</string>
