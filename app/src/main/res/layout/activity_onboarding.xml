@@ -40,10 +40,10 @@
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/skipButton"
         android:background="@android:color/transparent"
-        android:padding="10dip"
         android:fillColor="@android:color/white"
+        android:padding="10dip"
         app:pageColor="@android:color/transparent"
         app:radius="5dp"
         app:strokeColor="@android:color/white"
@@ -51,24 +51,18 @@
 
     <Button
         android:id="@+id/skipButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/border"
         android:text="@string/lets_get_started"
-        android:textColor="@android:color/white" />
-
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:text="@string/next"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

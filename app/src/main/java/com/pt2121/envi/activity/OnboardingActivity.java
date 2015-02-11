@@ -51,8 +51,6 @@ public class OnboardingActivity extends ActionBarActivity
 
     private Button mSkipButton;
 
-    private Button mNextButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,25 +67,12 @@ public class OnboardingActivity extends ActionBarActivity
 
         mSkipButton = (Button) findViewById(R.id.skipButton);
         mSkipButton.setOnClickListener(skipButtonOnClickListener);
-
-        mNextButton = (Button) findViewById(R.id.nextButton);
-        mNextButton.setOnClickListener(nextButtonOnClickListener);
     }
 
     View.OnClickListener skipButtonOnClickListener = v -> {
         Intent intent = new Intent(OnboardingActivity.this, MapActivity.class);
         OnboardingActivity.this.startActivity(intent);
         OnboardingActivity.this.finish();
-    };
-
-    View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mPager.getCurrentItem() + 1 < NUM_PAGES) {
-                mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
-                // TODO smoothScroll doesn't work
-            }
-        }
     };
 
     @Override
@@ -101,25 +86,14 @@ public class OnboardingActivity extends ActionBarActivity
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        onPageSelected(position);
     }
 
     @Override
     public void onPageSelected(int position) {
-        if (position >= NUM_PAGES - 1) {
-            mSkipButton.setVisibility(View.GONE);
-            mNextButton.setText("DONE");
-            mNextButton.setOnClickListener(skipButtonOnClickListener);
-        } else {
-            mSkipButton.setVisibility(View.VISIBLE);
-            mNextButton.setText("NEXT");
-            mNextButton.setOnClickListener(nextButtonOnClickListener);
-        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
