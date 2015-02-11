@@ -61,8 +61,8 @@
         android:layout_marginEnd="25dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/border"
+        android:background="@drawable/lets_start_background"
         android:text="@string/lets_get_started"
-        android:textColor="@android:color/white" />
+        android:textColor="@drawable/lets_start_text_color" />
 
 </RelativeLayout>
