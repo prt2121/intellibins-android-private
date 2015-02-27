@@ -126,7 +126,7 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         TableLayout layout = (TableLayout) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+                R.layout.fragment_filter, container, false);
         mBinSwitch = (Switch) layout.findViewById(R.id.binSwitch);
         mDropOffSwitch = (Switch) layout.findViewById(R.id.dropOffSwitch);
         mWholeFoodsSwitch = (Switch) layout.findViewById(R.id.wholeFoodSwitch);
