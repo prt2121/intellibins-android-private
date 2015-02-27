@@ -29,14 +29,17 @@ import com.pt2121.envi.R;
 import com.pt2121.envi.model.LocType;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 /**
  * Created by pt2121 on 2/26/15.
@@ -56,8 +59,7 @@ public class FilterDialog extends DialogFragment {
     private FilterCallbacks mCallbacks;
 
     static FilterDialog newInstance() {
-        FilterDialog f = new FilterDialog();
-        return f;
+        return new FilterDialog();
     }
 
     @Override
@@ -68,6 +70,10 @@ public class FilterDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+        Dialog dialog = getDialog();
+        dialog.setTitle("Filters");
+        TextView titleTextView = (TextView) dialog.findViewById(android.R.id.title);
+        titleTextView.setGravity(Gravity.CENTER);
         TableLayout layout = (TableLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mBinSwitch = (Switch) layout.findViewById(R.id.binSwitch);
