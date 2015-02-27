@@ -29,14 +29,14 @@ import com.pt2121.envi.R;
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -96,7 +96,7 @@ public class MapActivity extends FragmentActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if(id == R.id.action_example) {
+        } else if (id == R.id.action_example) {
             showDialog();
             return true;
         }
