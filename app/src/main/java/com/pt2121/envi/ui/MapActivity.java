@@ -96,7 +96,7 @@ public class MapActivity extends FragmentActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.action_example) {
+        } else if (id == R.id.action_filter) {
             showDialog();
             return true;
         }
