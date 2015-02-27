@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.pt2121.envi.activity;
+package com.pt2121.envi.ui;
 
 import com.pt2121.envi.R;
 
