@@ -29,20 +29,21 @@ import com.pt2121.envi.R;
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
 
-import android.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapActivity extends FragmentActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        implements FilterDialog.FilterCallbacks,
         MapFragment.OnFragmentInteractionListener {
 
     //Test Location : New York City Department of Health and Mental Hygiene
@@ -53,31 +54,14 @@ public class MapActivity extends FragmentActivity
             .type(LocType.USER)
             .build();
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private MapFragment mMapFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        // TODO: remove hardcoded
+        onFlagChanged(2);
     }
 
     @Override
@@ -93,22 +77,16 @@ public class MapActivity extends FragmentActivity
         }
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.map, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.map, menu);
+        return true;
+//        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+//            getMenuInflater().inflate(R.menu.map, menu);
+//            restoreActionBar();
+//            return true;
+//        }
+//        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -118,8 +96,10 @@ public class MapActivity extends FragmentActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if(id == R.id.action_example) {
+            showDialog();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -131,6 +111,19 @@ public class MapActivity extends FragmentActivity
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    void showDialog() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = FilterDialog.newInstance();
+        newFragment.show(ft, "dialog"); // .show(ft, "dialog");
     }
 
 }
