@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.pt2121.envi.MapUtils;
 import com.pt2121.envi.R;
 import com.pt2121.envi.RecycleApp;
+import com.pt2121.envi.RecycleMachine;
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
 
@@ -224,18 +225,20 @@ public class MapFragment extends Fragment {
         mockLocation.setLongitude(centerLoc.longitude);
         Observable<Location> mockObservable = Observable.just(mockLocation);
 
+        RecycleMachine recycleMachine = RecycleApp.getRecycleMachine(MapFragment.this.getActivity());
+
         Observable<Loc> bin = ((flag & LocType.BIN) == LocType.BIN) ?
-                RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
+                recycleMachine
                         .findBin()
                         .getLocs() : Observable.<Loc>empty();
 
         Observable<Loc> dropOff = ((flag & LocType.DROPOFF) == LocType.DROPOFF) ?
-                RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
+                recycleMachine
                         .findDropOff()
                         .getLocs() : Observable.<Loc>empty();
 
         Observable<Loc> wholeFoods = ((flag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS) ?
-                RecycleApp.getRecycleMachine(MapFragment.this.getActivity())
+                recycleMachine
                         .findWholeFoods()
                         .getLocs() : Observable.<Loc>empty();
 

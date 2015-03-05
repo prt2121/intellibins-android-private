@@ -34,15 +34,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MapActivity extends FragmentActivity
+public class MapActivity extends ActionBarActivity
         implements FilterDialog.FilterCallbacks,
         MapFragment.OnFragmentInteractionListener {
 
@@ -81,11 +81,11 @@ public class MapActivity extends FragmentActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.map, menu);
         return true;
-//        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-//            getMenuInflater().inflate(R.menu.map, menu);
-//            restoreActionBar();
-//            return true;
-//        }
+        /*if (!mNavigationDrawerFragment.isDrawerOpen()) {
+            getMenuInflater().inflate(R.menu.map, menu);
+            restoreActionBar();
+            return true;
+        }*/
 //        return super.onCreateOptionsMenu(menu);
     }
 
@@ -126,4 +126,19 @@ public class MapActivity extends FragmentActivity
         newFragment.show(ft, "dialog"); // .show(ft, "dialog");
     }
 
+    public void onFilterDialogCancel() {
+
+    }
+
+    public void onFilter(int flag) {
+        if (mMapFragment == null) {
+            mMapFragment = MapFragment.newInstance(mUserLoc, flag);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, mMapFragment)
+                    .commit();
+        } else {
+            mMapFragment.refreshMap(mUserLoc, flag);
+        }
+    }
 }

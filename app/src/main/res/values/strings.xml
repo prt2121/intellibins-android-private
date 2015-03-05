@@ -40,5 +40,7 @@
     <string name="next">NEXT</string>
     <string name="preference_user_location">userLocationPreference</string>
     <string name="user_location">userLocation</string>
+    <string name="filter_dialog_filter">Filter</string>
+    <string name="filter_dialog_cancel">Cancel</string>
 
 </resources>
