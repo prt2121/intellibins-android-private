@@ -42,5 +42,6 @@
     <string name="user_location">userLocation</string>
     <string name="filter_dialog_filter">Filter</string>
     <string name="filter_dialog_cancel">Cancel</string>
+    <string name="apply">apply</string>
 
 </resources>

@@ -25,6 +25,7 @@
 
 package com.pt2121.envi.ui;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.pt2121.envi.R;
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
@@ -36,15 +37,28 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.app.ActionBarActivity;
+import android.widget.Switch;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapActivity extends ActionBarActivity
         implements FilterDialog.FilterCallbacks,
         MapFragment.OnFragmentInteractionListener {
+
+    private static final String TAG = MapActivity.class.getSimpleName();
+
+    private MaterialDialog mFilterDialog;
+
+    private int mCurrentFlag = LocType.BIN;
+
+    private int mTempFlag = LocType.BIN;
+
+    // TODO: http://stackoverflow.com/questions/13904505/how-to-get-center-of-map-for-v2-android-maps
+    // getCameraPosition().target;
 
     //Test Location : New York City Department of Health and Mental Hygiene
     private final Loc mUserLoc = new Loc.Builder("Your Location")
@@ -60,8 +74,53 @@ public class MapActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+//        showDialog();
         // TODO: remove hardcoded
         onFlagChanged(2);
+        mFilterDialog = createFilterDialog();
+    }
+
+    private MaterialDialog createFilterDialog() {
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title(R.string.action_filter)
+                .customView(R.layout.fragment_filter, true)
+                .positiveText(R.string.apply)
+                .negativeText(android.R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        Log.d(TAG, "apply");
+                        mCurrentFlag = mTempFlag;
+                        onFlagChanged(mCurrentFlag);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        Log.d(TAG, "cancel");
+                    }
+                }).build();
+        Switch binSwitch = (Switch) dialog.getCustomView().findViewById(R.id.binSwitch);
+        Switch dropOffSwitch = (Switch) dialog.getCustomView().findViewById(R.id.dropOffSwitch);
+        Switch wholeFoodsSwitch = (Switch) dialog.getCustomView().findViewById(R.id.wholeFoodSwitch);
+        binSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> setStateFlag(isChecked, LocType.BIN));
+        dropOffSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> setStateFlag(isChecked, LocType.DROPOFF));
+        wholeFoodsSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> setStateFlag(isChecked, LocType.WHOLE_FOODS));
+        binSwitch.setChecked((mCurrentFlag & LocType.BIN) == LocType.BIN);
+        dropOffSwitch.setChecked((mCurrentFlag & LocType.DROPOFF) == LocType.DROPOFF);
+        wholeFoodsSwitch.setChecked((mCurrentFlag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS);
+        mTempFlag = mCurrentFlag;
+        return dialog;
+    }
+
+    private void setStateFlag(boolean isChecked, int type) {
+        if (isChecked) {
+            mTempFlag |= type;
+        } else {
+            mTempFlag &= ~type;
+        }
     }
 
     @Override
@@ -81,12 +140,6 @@ public class MapActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.map, menu);
         return true;
-        /*if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.map, menu);
-            restoreActionBar();
-            return true;
-        }*/
-//        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -97,7 +150,9 @@ public class MapActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_filter) {
-            showDialog();
+            // TODO
+            // showDialog();
+            mFilterDialog.show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -113,6 +168,7 @@ public class MapActivity extends ActionBarActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    // TODO remove this
     void showDialog() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");

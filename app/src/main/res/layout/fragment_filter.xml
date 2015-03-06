@@ -22,114 +22,77 @@
   ~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
-
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_centerVertical="true"
-    android:gravity="center"
-    android:stretchColumns="1">
+    android:layout_height="match_parent">
 
-    <TableRow
+
+    <TextView
+        android:id="@+id/binLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Bin" />
+
+    <Switch
+        android:id="@+id/binSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/binLabel"
+        android:layout_alignStart="@+id/wholeFoodSwitch" />
+
+    <!--<View
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="15dp">
-
-        <TextView
-            android:id="@+id/binLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_weight="1"
-            android:text="Bin" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_column="2"
-            android:layout_weight="1" />
-
-        <Switch
-            android:id="@+id/binSwitch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_weight="1" />
-
-    </TableRow>
-
-    <View
         android:layout_height="1dp"
-        android:background="#FF909090" />
+        android:layout_marginTop="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/binLabel"
+        android:background="#FF909090" />-->
 
-    <TableRow
+    <TextView
+        android:id="@+id/dropOffLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/binLabel"
+        android:layout_alignStart="@id/binLabel"
+        android:layout_below="@+id/binLabel"
+        android:layout_marginTop="30dp"
+        android:text="Drop-Off" />
+
+    <Switch
+        android:id="@+id/dropOffSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/dropOffLabel"
+        android:layout_alignStart="@+id/binSwitch" />
+
+    <!--<View
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="15dp">
-
-        <TextView
-            android:id="@+id/dropOffLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_weight="1"
-            android:text="Drop-Off" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_column="2"
-            android:layout_weight="1" />
-
-        <Switch
-            android:id="@+id/dropOffSwitch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_weight="1" />
-
-    </TableRow>
-
-    <View
         android:layout_height="1dp"
-        android:background="#FF909090" />
+        android:background="#FF909090"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/dropOffLabel"
+        android:layout_alignParentStart="true" />-->
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="15dp">
+    <TextView
+        android:id="@+id/wholeFoodLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/dropOffLabel"
+        android:layout_below="@+id/dropOffSwitch"
+        android:layout_marginTop="30dp"
+        android:text="Whole Foods" />
 
-        <TextView
-            android:id="@+id/wholeFoodLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_weight="1"
-            android:text="Whole Foods" />
+    <Switch
+        android:id="@+id/wholeFoodSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/wholeFoodLabel"
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/wholeFoodLabel" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_column="2"
-            android:layout_weight="1" />
-
-        <Switch
-            android:id="@+id/wholeFoodSwitch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_weight="1" />
-
-    </TableRow>
-
-
-</TableLayout>
-
-    <!--<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:choiceMode="singleChoice"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    android:background="#cccc"
-    tools:context=".activity.NavigationDrawerFragment" />-->
+</RelativeLayout>
