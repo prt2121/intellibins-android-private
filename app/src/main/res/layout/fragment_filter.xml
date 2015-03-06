@@ -38,12 +38,14 @@
         android:layout_marginTop="30dp"
         android:text="Bin" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/binSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/binLabel"
-        android:layout_alignStart="@+id/wholeFoodSwitch" />
+        android:layout_alignStart="@+id/wholeFoodSwitch"
+        android:textOff="OFF"
+        android:textOn="ON" />
 
     <!--<View
         android:layout_width="fill_parent"
@@ -63,12 +65,14 @@
         android:layout_marginTop="30dp"
         android:text="Drop-Off" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/dropOffSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/dropOffLabel"
-        android:layout_alignStart="@+id/binSwitch" />
+        android:layout_alignStart="@+id/binSwitch"
+        android:textOff="OFF"
+        android:textOn="ON" />
 
     <!--<View
         android:layout_width="fill_parent"
@@ -87,12 +91,14 @@
         android:layout_marginTop="30dp"
         android:text="Whole Foods" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/wholeFoodSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/wholeFoodLabel"
         android:layout_marginStart="40dp"
-        android:layout_toEndOf="@+id/wholeFoodLabel" />
+        android:layout_toEndOf="@+id/wholeFoodLabel"
+        android:textOff="OFF"
+        android:textOn="ON" />
 
 </RelativeLayout>

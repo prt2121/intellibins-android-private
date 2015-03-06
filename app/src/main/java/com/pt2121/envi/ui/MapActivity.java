@@ -38,10 +38,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Switch;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -86,6 +86,9 @@ public class MapActivity extends ActionBarActivity
                 .customView(R.layout.fragment_filter, true)
                 .positiveText(R.string.apply)
                 .negativeText(android.R.string.cancel)
+                .positiveColorRes(R.color.primary)
+                .negativeColorRes(R.color.primary)
+                .disableDefaultFonts()
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
@@ -99,9 +102,9 @@ public class MapActivity extends ActionBarActivity
                         Log.d(TAG, "cancel");
                     }
                 }).build();
-        Switch binSwitch = (Switch) dialog.getCustomView().findViewById(R.id.binSwitch);
-        Switch dropOffSwitch = (Switch) dialog.getCustomView().findViewById(R.id.dropOffSwitch);
-        Switch wholeFoodsSwitch = (Switch) dialog.getCustomView().findViewById(R.id.wholeFoodSwitch);
+        SwitchCompat binSwitch = (SwitchCompat) dialog.getCustomView().findViewById(R.id.binSwitch);
+        SwitchCompat dropOffSwitch = (SwitchCompat) dialog.getCustomView().findViewById(R.id.dropOffSwitch);
+        SwitchCompat wholeFoodsSwitch = (SwitchCompat) dialog.getCustomView().findViewById(R.id.wholeFoodSwitch);
         binSwitch.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> setStateFlag(isChecked, LocType.BIN));
         dropOffSwitch.setOnCheckedChangeListener(
