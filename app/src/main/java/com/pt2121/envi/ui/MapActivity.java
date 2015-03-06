@@ -46,8 +46,7 @@ import android.view.MenuItem;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapActivity extends ActionBarActivity
-        implements FilterDialog.FilterCallbacks,
-        MapFragment.OnFragmentInteractionListener {
+        implements MapFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MapActivity.class.getSimpleName();
 
@@ -74,13 +73,33 @@ public class MapActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-//        showDialog();
-        // TODO: remove hardcoded
-        onFlagChanged(2);
-        mFilterDialog = createFilterDialog();
+        if (savedInstanceState != null &&
+                savedInstanceState.getBoolean("dialogShown", true)) {
+            mCurrentFlag = savedInstanceState.getInt("currentFlag", LocType.BIN);
+            mTempFlag = savedInstanceState.getInt("tempFlag", mCurrentFlag);
+            mFilterDialog = createFilterDialog(mTempFlag);
+            mFilterDialog.show();
+            onFlagChanged(mCurrentFlag);
+        } else {
+            mFilterDialog = createFilterDialog(mCurrentFlag);
+            onFlagChanged(mCurrentFlag);
+        }
     }
 
-    private MaterialDialog createFilterDialog() {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mFilterDialog != null && mFilterDialog.isShowing()) {
+            mFilterDialog.dismiss();
+            outState.putBoolean("dialogShown", true);
+            outState.putInt("tempFlag", mTempFlag);
+        } else {
+            outState.putBoolean("dialogShown", false);
+        }
+        outState.putInt("currentFlag", mCurrentFlag);
+    }
+
+    private MaterialDialog createFilterDialog(int flag) {
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title(R.string.action_filter)
                 .customView(R.layout.fragment_filter, true)
@@ -111,10 +130,10 @@ public class MapActivity extends ActionBarActivity
                 (buttonView, isChecked) -> setStateFlag(isChecked, LocType.DROPOFF));
         wholeFoodsSwitch.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> setStateFlag(isChecked, LocType.WHOLE_FOODS));
-        binSwitch.setChecked((mCurrentFlag & LocType.BIN) == LocType.BIN);
-        dropOffSwitch.setChecked((mCurrentFlag & LocType.DROPOFF) == LocType.DROPOFF);
-        wholeFoodsSwitch.setChecked((mCurrentFlag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS);
-        mTempFlag = mCurrentFlag;
+        binSwitch.setChecked((flag & LocType.BIN) == LocType.BIN);
+        dropOffSwitch.setChecked((flag & LocType.DROPOFF) == LocType.DROPOFF);
+        wholeFoodsSwitch.setChecked((flag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS);
+        mTempFlag = flag;
         return dialog;
     }
 
@@ -126,7 +145,6 @@ public class MapActivity extends ActionBarActivity
         }
     }
 
-    @Override
     public void onFlagChanged(int flag) {
         if (mMapFragment == null) {
             mMapFragment = MapFragment.newInstance(mUserLoc, flag);
@@ -148,13 +166,10 @@ public class MapActivity extends ActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_filter) {
-            // TODO
-            // showDialog();
             mFilterDialog.show();
             return true;
         }
@@ -171,33 +186,4 @@ public class MapActivity extends ActionBarActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    // TODO remove this
-    void showDialog() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog.
-        DialogFragment newFragment = FilterDialog.newInstance();
-        newFragment.show(ft, "dialog"); // .show(ft, "dialog");
-    }
-
-    public void onFilterDialogCancel() {
-
-    }
-
-    public void onFilter(int flag) {
-        if (mMapFragment == null) {
-            mMapFragment = MapFragment.newInstance(mUserLoc, flag);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, mMapFragment)
-                    .commit();
-        } else {
-            mMapFragment.refreshMap(mUserLoc, flag);
-        }
-    }
 }
