@@ -43,5 +43,8 @@
     <string name="filter_dialog_filter">Filter</string>
     <string name="filter_dialog_cancel">Cancel</string>
     <string name="apply">apply</string>
+    <string name="tutorial_1">Select the items you\'d like to know where to recycle.</string>
+    <string name="tutorial_2">Tap "Apply" to view where they can be disposed of on the map.</string>
+    <string name="tutorial_3">Tap "List" to view locations in list form sorted by proximity.</string>
 
 </resources>
