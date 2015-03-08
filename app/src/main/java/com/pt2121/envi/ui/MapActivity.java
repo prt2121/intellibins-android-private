@@ -30,18 +30,22 @@ import com.pt2121.envi.R;
 import com.pt2121.envi.model.Loc;
 import com.pt2121.envi.model.LocType;
 
+import android.app.Service;
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -55,6 +59,10 @@ public class MapActivity extends ActionBarActivity
     private int mCurrentFlag = LocType.BIN;
 
     private int mTempFlag = LocType.BIN;
+
+    private View mTutorialView;
+
+    private WindowManager mWindowManager;
 
     // TODO: http://stackoverflow.com/questions/13904505/how-to-get-center-of-map-for-v2-android-maps
     // getCameraPosition().target;
@@ -73,17 +81,44 @@ public class MapActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        //TODO fix if condition
         if (savedInstanceState != null &&
                 savedInstanceState.getBoolean("dialogShown", true)) {
             mCurrentFlag = savedInstanceState.getInt("currentFlag", LocType.BIN);
             mTempFlag = savedInstanceState.getInt("tempFlag", mCurrentFlag);
-            mFilterDialog = createFilterDialog(mTempFlag);
-            mFilterDialog.show();
+            //mFilterDialog = createFilterDialog(mTempFlag);
+//            mFilterDialog.show();
             onFlagChanged(mCurrentFlag);
         } else {
-            mFilterDialog = createFilterDialog(mCurrentFlag);
             onFlagChanged(mCurrentFlag);
         }
+
+        //TODO check first time
+        mFilterDialog = createFilterDialog(mCurrentFlag);
+        mFilterDialog.show();
+
+        mWindowManager = (WindowManager) getSystemService(Service.WINDOW_SERVICE);
+        mTutorialView = addTutorialView(getResources().getString(R.string.tutorial_1));
+    }
+
+    private View addTutorialView(String text) {
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        LayoutInflater inflater = getLayoutInflater();
+
+        //        final View view = inflater.inflate(R.layout.tutorial_layout, null);
+        ViewGroup parent = (ViewGroup) findViewById(R.id.container);
+        final View view = inflater.inflate(R.layout.tutorial_layout, parent, false);
+
+        ((TextView) view.findViewById(R.id.tutorialTextView)).setText(text);
+        (view.findViewById(R.id.closeButton)).setOnClickListener(v -> mWindowManager.removeView(view));
+        mWindowManager.addView(view, params);
+        return view;
     }
 
     @Override
@@ -154,6 +189,14 @@ public class MapActivity extends ActionBarActivity
                     .commit();
         } else {
             mMapFragment.refreshMap(mUserLoc, flag);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mTutorialView != null) {
+            mWindowManager.removeView(mTutorialView);
         }
     }
 

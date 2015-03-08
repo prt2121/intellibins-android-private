@@ -56,7 +56,7 @@ public class OnboardingFragment extends Fragment {
         final int position = getArguments().getInt(ARG_POSITION);
         ((TextView) rootView.findViewById(R.id.onboardingTextView)).setText(
                 getOnboardingText(position));
-        rootView.findViewById(R.id.content).setBackgroundResource(getBackgroundId(position));
+        rootView.findViewById(R.id.content); //.setBackgroundResource(getBackgroundId(position));
         return rootView;
     }
 

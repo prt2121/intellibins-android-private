@@ -121,13 +121,13 @@ public class MapFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setUpMapIfNeeded(mLoc, mFlag);
+//        setUpMapIfNeeded(mLoc, mFlag);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setUpMapIfNeeded(mLoc, mFlag);
+//        setUpMapIfNeeded(mLoc, mFlag);
     }
 
     @Override
